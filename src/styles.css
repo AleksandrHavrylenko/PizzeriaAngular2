@@ -1,0 +1,6 @@
+@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+
+body {
+  background:gray;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}

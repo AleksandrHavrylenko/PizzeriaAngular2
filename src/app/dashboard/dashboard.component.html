@@ -1,0 +1,78 @@
+<md-tab-group>
+  <md-tab>
+    <template md-tab-label>Все</template>
+      <div class="flex-container">
+
+        <md-card class="flex-item" *ngFor="let dish of dishes; let i = index">
+
+          <md-card-title-group>
+            <md-card-title>{{ dish.name }}</md-card-title>
+            <md-card-subtitle>вес:{{dish.weight}} г.</md-card-subtitle>
+          </md-card-title-group>
+
+          <!--<img md-card-md-image src="{{ dish.img }}">-->
+
+          <md-card-content>
+            <img src="{{ dish.imageUrl }}" width="250px" height="250px">
+            <br>
+
+            <div class="description">
+              {{ dish.description }}
+            </div>
+
+            <div class="xz">
+              Цена: {{ dish.price }} грн.
+            </div>
+
+          </md-card-content>
+          <md-card-actions>
+            <button md-button>
+              <i class="material-icons md-18">add_circle</i> В КОРЗИНУ
+            </button>
+            <button md-button>
+              <i class="material-icons md-18">delete</i> УДАЛИТЬ
+            </button>
+          </md-card-actions>
+        </md-card>
+
+      </div>
+  </md-tab>
+  <md-tab>
+    <template md-tab-label>Пиццы</template>
+      <h3>Top Heroes</h3>
+      <md-card class="dashboard-card" *ngFor="let dish of dishes">
+        <h4>{{ dish.name }}</h4>
+      </md-card>
+  </md-tab>
+  <md-tab>
+    <template md-tab-label>Мои рецепты</template>
+    <h1>Some more tab content</h1>
+  </md-tab>
+  <md-tab>
+    <template md-tab-label>Первые блюда</template>
+    <h1>Some more tab content</h1>
+  </md-tab>
+  <md-tab>
+    <template md-tab-label>Вторые блюда</template>
+    <h1>Some more tab content</h1>
+  </md-tab>
+  <md-tab>
+    <template md-tab-label>Ланчи</template>
+    <h1>Some more tab content</h1>
+  </md-tab>
+  <md-tab>
+    <template md-tab-label>Дессерты</template>
+    <h1>Some more tab content</h1>
+  </md-tab>
+  <md-tab>
+    <template md-tab-label>Напитки</template>
+      <h1>Some more tab content</h1>
+  </md-tab>
+
+</md-tab-group>
+
+
+
+
+
+<!--<app-hero-search></app-hero-search>-->
