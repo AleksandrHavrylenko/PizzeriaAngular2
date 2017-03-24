@@ -9,6 +9,8 @@ import {AppComponent} from './app.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 
 import {DishService} from './services/dish.service';
+import {IngredientService} from './services/ingredient.service'
+import {PizzaService} from './services/pizza.service'
 
 @NgModule({
   declarations: [
@@ -22,7 +24,7 @@ import {DishService} from './services/dish.service';
     RoutingModule,
     MaterialModule
   ],
-  providers: [DishService],
+  providers: [DishService, IngredientService, PizzaService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

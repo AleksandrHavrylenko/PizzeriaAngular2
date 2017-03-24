@@ -1,52 +1,112 @@
 <md-tab-group>
   <md-tab>
     <template md-tab-label>Все</template>
-      <div class="flex-container">
+    <div class="flex-container">
 
-        <md-card class="flex-item" *ngFor="let dish of dishes; let i = index">
+      <md-card class="flex-item" *ngFor="let dish of dishes; let i = index">
 
-          <md-card-title-group>
-            <md-card-title>{{ dish.name }}</md-card-title>
-            <md-card-subtitle>вес:{{dish.weight}} г.</md-card-subtitle>
-          </md-card-title-group>
+        <md-card-title-group>
+          <md-card-title>{{ dish.name }}</md-card-title>
+          <md-card-subtitle>вес:{{dish.weight}} г.</md-card-subtitle>
+        </md-card-title-group>
 
-          <!--<img md-card-md-image src="{{ dish.img }}">-->
+        <!--<img md-card-md-image src="{{ dish.img }}">-->
 
-          <md-card-content>
-            <img src="{{ dish.imageUrl }}" width="250px" height="250px">
-            <br>
+        <md-card-content>
+          <img src="{{ dish.imageUrl }}" width="250px" height="250px">
+          <br>
 
-            <div class="description">
-              {{ dish.description }}
-            </div>
+          <div class="description">
+            {{ dish.description }}
+          </div>
 
-            <div class="xz">
-              Цена: {{ dish.price }} грн.
-            </div>
+          <div class="xz">
+            Цена: {{ dish.price }} грн.
+          </div>
 
-          </md-card-content>
-          <md-card-actions>
-            <button md-button>
-              <i class="material-icons md-18">add_circle</i> В КОРЗИНУ
-            </button>
-            <button md-button>
-              <i class="material-icons md-18">delete</i> УДАЛИТЬ
-            </button>
-          </md-card-actions>
-        </md-card>
+        </md-card-content>
+        <md-card-actions>
+          <button md-button>
+            <i class="material-icons md-18">add_circle</i> В КОРЗИНУ
+          </button>
+          <button md-button (click)="remove(dish);">
+            <i class="material-icons md-18">delete</i> УДАЛИТЬ
+          </button>
+        </md-card-actions>
+      </md-card>
 
-      </div>
+
+      <md-card class="example-form">
+        <md-card-title>Добавить блюдо</md-card-title>
+        <div>
+
+          <md-input-container style="width: 500px;">
+            <input #dishName mdInput placeholder="Название" class="example-full-width">
+          </md-input-container>
+
+          <table class="example-full-width" cellspacing="0">
+            <tr>
+              <td>
+                <md-input-container class="example-full-width">
+                  <input #dishPrice mdInput placeholder="Цена" type="number">
+                </md-input-container>
+              </td>
+              <td>
+                <md-input-container class="example-full-width">
+                  <input #dishWeight mdInput placeholder="Вес" type="number">
+                </md-input-container>
+              </td>
+            </tr>
+          </table>
+
+          <p>
+            <md-input-container class="example-full-width">
+              <textarea #dishDescription mdInput placeholder="Описание"></textarea>
+            </md-input-container>
+          </p>
+
+          <md-select #dishType placeholder="Тип" name="food">
+            <md-option>Пицца</md-option>
+            <md-option>Первое</md-option>
+            <md-option>Второе</md-option>
+            <md-option>Напиток</md-option>
+            <md-option>Дессерт</md-option>
+          </md-select>
+
+          <p>
+            <label>Фотография</label>
+          <p>
+            <input type="file">
+
+            <md-input-container class="example-full-width">
+              <input #imageUrl mdInput placeholder="Вес" type="url">
+            </md-input-container>
+        </div>
+        <md-card-actions>
+          <button md-button (click)=
+            "add(dishName.value, dishDescription.value, dishPrice.value, dishWeight.value, imageUrl.value);
+              dishName.value=''; dishDescription.value=''; dishPrice.value=''; dishWeight.value=''; imageUrl.value='';">
+            <i class="material-icons md-18">add_circle</i> ДОБАВИТЬ
+          </button>
+        </md-card-actions>
+      </md-card>
+    </div>
   </md-tab>
   <md-tab>
     <template md-tab-label>Пиццы</template>
-      <h3>Top Heroes</h3>
-      <md-card class="dashboard-card" *ngFor="let dish of dishes">
-        <h4>{{ dish.name }}</h4>
-      </md-card>
+    <h3>Pizzas</h3>
+    <md-card class="dashboard-card" *ngFor="let pizza of pizzas">
+      <h4>{{ pizza.name }}</h4>
+    </md-card>
   </md-tab>
   <md-tab>
-    <template md-tab-label>Мои рецепты</template>
-    <h1>Some more tab content</h1>
+    <template md-tab-label>Ингредиенты</template>
+    <h1>Ингредиенты</h1>
+    <md-card class="card-ingredient" *ngFor="let ingredient of ingredients">
+      <md-checkbox class="example-margin">{{ ingredient.name }}</md-checkbox>
+      <label class="xz-1">{{ingredient.weight}} г.</label>
+      <label class="xz-2">{{ingredient.price}} грн.</label>
+    </md-card>
   </md-tab>
   <md-tab>
     <template md-tab-label>Первые блюда</template>
@@ -66,13 +126,16 @@
   </md-tab>
   <md-tab>
     <template md-tab-label>Напитки</template>
-      <h1>Some more tab content</h1>
+    <h1>Some more tab content</h1>
+    <md-input-container class="example-full-width">
+      <input mdInput placeholder="First name">
+    </md-input-container>
+    <md-input-container class="example-full-width">
+      <input mdInput placeholder="First name">
+    </md-input-container>
   </md-tab>
 
 </md-tab-group>
-
-
-
 
 
 <!--<app-hero-search></app-hero-search>-->

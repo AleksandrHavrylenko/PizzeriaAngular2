@@ -1,7 +1,17 @@
+.example-form {
+  width: 500px;
+  height: 525px;
+  margin: 8px;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
 .dashboard-card {
-   width: 500px;
-   display: inline-block;
-   margin-right: 15px;
+  width: 500px;
+  display: inline-block;
+  margin-right: 15px;
 }
 
 .flex-container {
@@ -18,23 +28,11 @@
   margin: 8px;
 }
 
-.card-mini {
-  /*margin: 12px;*/
-  width: 250px;  /* Или что угодно */
-  height: 500px; /* Или что угодно */
-  margin: auto;  /* Магия! Блок отцентрирован по вертикали и горизонтали! */
-
-}
-
-.card-category {
-  width: 250px;
-  margin: 12px;
-  float:right;
-}
-.card-category1 {
-  width: 250px;
-  margin: 12px;
-  float:left;
+.card-ingredient {
+  width: 350px;
+  height: 55px;
+  padding: 16px;
+  margin: 8px;
 }
 
 .description {
@@ -42,7 +40,6 @@
   height: 100px;
   font-size: small;
 }
-
 
 .xz {
   background-color: orangered;
@@ -55,10 +52,23 @@
   padding-left: 24px;
 }
 
-.card {
-  margin: 12px;
+.xz-1 {
+  background-color: gray;
+  color: white;
+  font-size: large;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
-.left {
-  float: left;
-  margin: 0 1em 1em 0;
+
+.xz-2 {
+  background-color: orangered;
+  color: white;
+  font-size: large;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
+

@@ -39,14 +39,12 @@ export class DishService {
 //   }
 
   create(dish: Dish): Promise<Dish> {
-    const url = `${this.dishesUrl}/add`;
-    // let data={"dishApi":null};
-    // data.dishApi = dish;
+    const url = `${this.dishesUrl}`;
     return this.http.post(url, dish, {headers: this.headers})
       .toPromise()
       .then(response => {
         console.log(`dish create JSON: ${JSON.stringify(response.json())}`);
-        // response.json().dishes[0] as Dish;
+        return response.json().dishes[0] as Dish;
       })
       .catch(this.handleError);
   }
@@ -62,16 +60,15 @@ export class DishService {
   // }
   //
 
-  delete(id: string): Promise<string> {
-      const url = `${this.dishesUrl}/del/${id}`;
-    console.log(id);
-    console.log(url);
+  remove(dish: Dish): Promise<string> {
+      const url = `${this.dishesUrl}/${dish.id}`;
+    console.log(dish.id);
        return this.http.delete(url, {headers: this.headers})
       .toPromise()
-         .then(response => {
-           console.log(`dish create JSON: ${JSON.stringify(response.json())}`);
-           // response.json().dishes[0] as Dish;
-         })
+         // .then(response => {
+         //   console.log(`dish create JSON: ${JSON.stringify(response.json())}`);
+         //   // response.json().dishes[0] as Dish;
+         // })
       .catch(this.handleError);
   }
 
