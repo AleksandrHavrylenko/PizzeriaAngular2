@@ -3,5 +3,4 @@ export class Ingredient {
   name: string;
   price: number;
   weight: number;
-  imageUrl: string;
 }

@@ -16,10 +16,13 @@ import {PizzaService} from '../services/pizza.service'
 })
 export class DashboardComponent implements OnInit {
 
+  private imagesUrl = 'http://localhost:8080/api/v1/img/dishes/';
   dishes: Dish[] = [];
   ingredients: Ingredient[] = [];
   pizzas: Pizza[] = [];
+  ingredientsNewPizza: Ingredient[] = [];
 
+  types: string[] = ['PIZZA', 'DRINK', 'LUNCH', 'FIRST_DISH', 'SECOND_DISH', 'DESSERT'];
 
   constructor(private dishService: DishService, private ingredientService: IngredientService, private pizzaService: PizzaService) {
   }
@@ -40,7 +43,6 @@ export class DashboardComponent implements OnInit {
     const user: Dish = new Dish();
     user.name = name;
     user.description = description;
-    user.imageUrl = url;
     user.price = price;
     user.weight = weight;
     user.type = 'PIZZA';
@@ -58,5 +60,38 @@ export class DashboardComponent implements OnInit {
         this.dishes = this.dishes.filter(h => h !== dish);
       });
   }
+
+  getImage(id :number): string {
+    return `${this.imagesUrl}${id}`;
+  }
+
+  getImageI(id :number): string {
+    return `http://localhost:8080/api/v1/img/ingredients/${id}`;
+  }
+
+  addIngredientToNewPizza(ingredient: Ingredient) {
+    this.ingredientsNewPizza.push(ingredient);
+  }
+
+  removedIngredientToNewPizza(ingredient: Ingredient) {
+    this.ingredientsNewPizza.splice(this.ingredientsNewPizza.indexOf(ingredient), 1);
+  }
+
+  getSum(): string {
+    //var sum = this.bucket.reduce((a, b) => a.price + b.price, 0);
+    var total=0;
+    for(var i in this.ingredientsNewPizza) { total += this.ingredientsNewPizza[i].price; }
+    return String(total) + " грн.";
+  }
+
+  getDishesDrinks(): Dish[] {
+    return this.dishes.filter(item => item.type === "DRINK");
+  }
+
+  getDishesByType(type: string): Dish[] {
+    return this.dishes.filter(item => item.type === type);
+  }
+
+
 
 }

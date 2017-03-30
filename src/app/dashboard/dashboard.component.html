@@ -1,29 +1,24 @@
 <md-tab-group>
-  <md-tab>
-    <template md-tab-label>Все</template>
+  <md-tab *ngFor="let s of types; let i = index">
+    <template md-tab-label >{{ s }}</template>
     <div class="flex-container">
-
-      <md-card class="flex-item" *ngFor="let dish of dishes; let i = index">
+      <md-card class="flex-item" *ngFor="let dish of getDishesByType(s); let i = index">
 
         <md-card-title-group>
           <md-card-title>{{ dish.name }}</md-card-title>
           <md-card-subtitle>вес:{{dish.weight}} г.</md-card-subtitle>
         </md-card-title-group>
-
-        <!--<img md-card-md-image src="{{ dish.img }}">-->
-
         <md-card-content>
-          <img src="{{ dish.imageUrl }}" width="250px" height="250px">
-          <br>
+            <img src="{{ getImage(dish.id) }}" width="250px" height="250px">
+            <br>
 
-          <div class="description">
-            {{ dish.description }}
-          </div>
+            <div class="description">
+              {{ dish.description }}
+            </div>
 
-          <div class="xz">
-            Цена: {{ dish.price }} грн.
-          </div>
-
+            <div class="xz">
+              Цена: {{ dish.price }} грн.
+            </div>
         </md-card-content>
         <md-card-actions>
           <button md-button>
@@ -93,7 +88,7 @@
     </div>
   </md-tab>
   <md-tab>
-    <template md-tab-label>Пиццы</template>
+    <template md-tab-label>Пиццы юзера</template>
     <h3>Pizzas</h3>
     <md-card class="dashboard-card" *ngFor="let pizza of pizzas">
       <h4>{{ pizza.name }}</h4>
@@ -102,30 +97,47 @@
   <md-tab>
     <template md-tab-label>Ингредиенты</template>
     <h1>Ингредиенты</h1>
-    <md-card class="card-ingredient" *ngFor="let ingredient of ingredients">
-      <md-checkbox class="example-margin">{{ ingredient.name }}</md-checkbox>
-      <label class="xz-1">{{ingredient.weight}} г.</label>
-      <label class="xz-2">{{ingredient.price}} грн.</label>
-    </md-card>
+    <div class="flex-container">
+      <md-card class="card-ingredient" *ngFor="let ingredient of ingredients">
+        <md-card-title-group>
+          <md-card-title>{{ ingredient.name }}</md-card-title>
+          <!--<md-card-subtitle>вес:{{dish.weight}} г.</md-card-subtitle>-->
+        </md-card-title-group>
+        <!--<md-checkbox class="example-margin">{{ ingredient.name }}</md-checkbox>-->
+        <p>
+          <div style="text-align: center;">
+          <img src="{{ getImageI(ingredient.id) }}" width="130px" height="130px">
+      </div>
+        <p>
+          <label class="xz-1">{{ingredient.weight}} г.</label>
+          <label class="xz-2">{{ingredient.price}} грн.</label>
+          <md-card-actions>
+            <button md-button (click)="addIngredientToNewPizza(ingredient)">
+              <i class="material-icons md-18">check</i> ВЫБРАТЬ
+            </button>
+          </md-card-actions>
+      </md-card>
+    </div>
+
+    <h1>Цена новой пиццы: {{getSum()}}</h1>
+
+    <div *ngFor="let ingredient of ingredientsNewPizza; let i = index">
+
+      <md-card class="card-mini-info">
+
+        <md-card-content>
+          {{ ingredient.name }}, {{ ingredient.weight }} г.
+          <button md-button (click)="removedIngredientToNewPizza(ingredient)">
+            <i class="material-icons md-18" style="color: red">close</i>
+          </button>
+        </md-card-content>
+      </md-card>
+
+    </div>
+
   </md-tab>
   <md-tab>
-    <template md-tab-label>Первые блюда</template>
-    <h1>Some more tab content</h1>
-  </md-tab>
-  <md-tab>
-    <template md-tab-label>Вторые блюда</template>
-    <h1>Some more tab content</h1>
-  </md-tab>
-  <md-tab>
-    <template md-tab-label>Ланчи</template>
-    <h1>Some more tab content</h1>
-  </md-tab>
-  <md-tab>
-    <template md-tab-label>Дессерты</template>
-    <h1>Some more tab content</h1>
-  </md-tab>
-  <md-tab>
-    <template md-tab-label>Напитки</template>
+    <template md-tab-label>TEST</template>
     <h1>Some more tab content</h1>
     <md-input-container class="example-full-width">
       <input mdInput placeholder="First name">

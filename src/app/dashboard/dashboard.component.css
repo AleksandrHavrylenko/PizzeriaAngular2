@@ -23,15 +23,22 @@
 
 .flex-item {
   width: 250px;
-  height: 525px;
+  height: 570px;
   padding: 16px;
   margin: 8px;
 }
 
 .card-ingredient {
-  width: 350px;
-  height: 55px;
+  width: 200px;
+  height: 260px;
   padding: 16px;
+  margin: 8px;
+}
+
+.card-mini-info {
+  width: 300px;
+  height: 40px;
+  padding: 8px;
   margin: 8px;
 }
 
