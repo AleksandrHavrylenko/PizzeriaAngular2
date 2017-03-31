@@ -1,8 +1,8 @@
 <md-tab-group>
-  <md-tab *ngFor="let s of types; let i = index">
-    <template md-tab-label >{{ s }}</template>
+  <md-tab *ngFor="let type of types;">
+    <template md-tab-label >{{ getCategoryNameByType(type) }}</template>
     <div class="flex-container">
-      <md-card class="flex-item" *ngFor="let dish of getDishesByType(s); let i = index">
+      <md-card class="flex-item" *ngFor="let dish of getDishesByType(type);">
 
         <md-card-title-group>
           <md-card-title>{{ dish.name }}</md-card-title>
@@ -121,7 +121,7 @@
 
     <h1>Цена новой пиццы: {{getSum()}}</h1>
 
-    <div *ngFor="let ingredient of ingredientsNewPizza; let i = index">
+    <div *ngFor="let ingredient of ingredientsNewPizza;">
 
       <md-card class="card-mini-info">
 

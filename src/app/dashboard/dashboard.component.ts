@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
   pizzas: Pizza[] = [];
   ingredientsNewPizza: Ingredient[] = [];
 
-  types: string[] = ['PIZZA', 'DRINK', 'LUNCH', 'FIRST_DISH', 'SECOND_DISH', 'DESSERT'];
+  types: string[] = ['PIZZA', 'LUNCH', 'FIRST_DISH', 'SECOND_DISH', 'DESSERT', 'DRINK'];
 
   constructor(private dishService: DishService, private ingredientService: IngredientService, private pizzaService: PizzaService) {
   }
@@ -61,11 +61,11 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  getImage(id :number): string {
+  getImage(id: number): string {
     return `${this.imagesUrl}${id}`;
   }
 
-  getImageI(id :number): string {
+  getImageI(id: number): string {
     return `http://localhost:8080/api/v1/img/ingredients/${id}`;
   }
 
@@ -78,14 +78,26 @@ export class DashboardComponent implements OnInit {
   }
 
   getSum(): string {
-    //var sum = this.bucket.reduce((a, b) => a.price + b.price, 0);
-    var total=0;
-    for(var i in this.ingredientsNewPizza) { total += this.ingredientsNewPizza[i].price; }
-    return String(total) + " грн.";
+    let total = 0;
+    for (const ingredientsNewPizzaItem of this.ingredientsNewPizza) { total += ingredientsNewPizzaItem.price; }
+    return String(total) + ' грн.';
   }
 
   getDishesDrinks(): Dish[] {
-    return this.dishes.filter(item => item.type === "DRINK");
+    return this.dishes.filter(item => item.type === 'DRINK');
+  }
+
+  getCategoryNameByType(type: string): string {
+    switch (type) {
+      case 'PIZZA': return 'Пицца';
+      case 'LUNCH': return 'Ланчи';
+      case 'FIRST_DISH': return 'Первые блюда';
+      case 'SECOND_DISH': return 'Вторые блюда';
+      case 'DESSERT': return 'Десерты';
+      case 'DRINK': return 'Напитки';
+    }
+
+    return type;
   }
 
   getDishesByType(type: string): Dish[] {
