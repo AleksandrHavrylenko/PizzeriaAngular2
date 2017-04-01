@@ -1,6 +1,6 @@
 <md-tab-group>
   <md-tab *ngFor="let type of types;">
-    <template md-tab-label >{{ getCategoryNameByType(type) }}</template>
+    <template md-tab-label>{{ getCategoryNameByType(type) }}</template>
     <div class="flex-container">
       <md-card class="flex-item" *ngFor="let dish of getDishesByType(type);">
 
@@ -9,19 +9,19 @@
           <md-card-subtitle>вес:{{dish.weight}} г.</md-card-subtitle>
         </md-card-title-group>
         <md-card-content>
-            <img src="{{ getImage(dish.id) }}" width="250px" height="250px">
-            <br>
+          <img src="{{ getImage(dish.id) }}" width="250px" height="250px">
+          <br>
 
-            <div class="description">
-              {{ dish.description }}
-            </div>
+          <div class="description">
+            {{ dish.description }}
+          </div>
 
-            <div class="xz">
-              Цена: {{ dish.price }} грн.
-            </div>
+          <div class="xz">
+            Цена: {{ dish.price }} грн.
+          </div>
         </md-card-content>
         <md-card-actions>
-          <button md-button>
+          <button md-button (click)="addDishToBucket(dish)">
             <i class="material-icons md-18">add_circle</i> В КОРЗИНУ
           </button>
           <button md-button (click)="remove(dish);">
@@ -88,15 +88,44 @@
     </div>
   </md-tab>
   <md-tab>
-    <template md-tab-label>Пиццы юзера</template>
-    <h3>Pizzas</h3>
-    <md-card class="dashboard-card" *ngFor="let pizza of pizzas">
-      <h4>{{ pizza.name }}</h4>
-    </md-card>
-  </md-tab>
-  <md-tab>
-    <template md-tab-label>Ингредиенты</template>
-    <h1>Ингредиенты</h1>
+    <template md-tab-label>Мои пиццы</template>
+    <div class="flex-container">
+      <md-card class="flex-item" *ngFor="let pizza of pizzas;">
+
+        <md-card-title-group>
+          <md-card-title>{{ pizza.name }}</md-card-title>
+          <md-card-subtitle>вес:{{pizza.weight}} г.</md-card-subtitle>
+        </md-card-title-group>
+        <md-card-content>
+
+          <div class="img-mini-ingredient-flex">
+            <div class="img-mini-item" *ngFor="let i of getIngredientsNotBasic(pizza)">
+              <img src="{{ getImageI(i.id) }}" width="120px" height="120px">
+            </div>
+          </div>
+
+          <br>
+          <div class="description">
+            <div *ngFor="let i of pizza.ingredients">
+              {{ i.name }}
+            </div>
+          </div>
+
+          <div class="xz">
+            Цена: {{ pizza.price }} грн.
+          </div>
+        </md-card-content>
+        <md-card-actions>
+          <button md-button (click)="addPizzaToBucket(pizza)">
+            <i class="material-icons md-18">add_circle</i> В КОРЗИНУ
+          </button>
+          <button md-button (click)="remove(dish);">
+            <i class="material-icons md-18">delete</i> УДАЛИТЬ
+          </button>
+        </md-card-actions>
+      </md-card>
+    </div>
+    <h1>Создать новую пиццу</h1>
     <div class="flex-container">
       <md-card class="card-ingredient" *ngFor="let ingredient of ingredients">
         <md-card-title-group>
@@ -105,9 +134,9 @@
         </md-card-title-group>
         <!--<md-checkbox class="example-margin">{{ ingredient.name }}</md-checkbox>-->
         <p>
-          <div style="text-align: center;">
+        <div style="text-align: center;">
           <img src="{{ getImageI(ingredient.id) }}" width="130px" height="130px">
-      </div>
+        </div>
         <p>
           <label class="xz-1">{{ingredient.weight}} г.</label>
           <label class="xz-2">{{ingredient.price}} грн.</label>
@@ -135,19 +164,51 @@
 
     </div>
 
+    <md-input-container class="example-full-width">
+      <input #pizzaName mdInput placeholder="Название пиццы">
+    </md-input-container>
+
+    <button md-button (click)="addPizza(pizzaName.value); pizzaName.value = ''">
+      <i class="material-icons md-18">shopping basket</i> Создать
+    </button>
+
   </md-tab>
+
   <md-tab>
-    <template md-tab-label>TEST</template>
-    <h1>Some more tab content</h1>
-    <md-input-container class="example-full-width">
-      <input mdInput placeholder="First name">
-    </md-input-container>
-    <md-input-container class="example-full-width">
-      <input mdInput placeholder="First name">
-    </md-input-container>
+    <template md-tab-label>Корзина</template>
+    <h1>Корзина</h1>
+    <h2>Сумма: </h2>
+    <md-card style="padding: 16px; margin: 16px">
+      <md-card-title-group>
+        <md-card-title> Корзина </md-card-title>
+        <md-card-subtitle>Итого: 999.99 грн</md-card-subtitle>
+      </md-card-title-group>
+
+      <h3>
+        Блюда:
+      </h3>
+
+      <div *ngFor="let dish of bucketDish">
+        {{ dish.name }} {{ dish.price }}
+      </div>
+      <h3> Пиццы:</h3>
+      <div *ngFor="let pizza of bucketPizza">
+        {{ pizza.name }} {{ pizza.price }}
+      </div>
+
+      <md-input-container class="example-full-width">
+        <input #Address mdInput placeholder="Адрес доставки">
+      </md-input-container>
+
+      <button md-button (click)="addBucket(Address.value)">
+        <i class="material-icons md-18">shopping basket</i> Оформить заказ
+      </button>
+
+    </md-card>
   </md-tab>
+
 
 </md-tab-group>
 
 
-<!--<app-hero-search></app-hero-search>-->
+

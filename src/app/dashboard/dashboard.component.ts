@@ -3,11 +3,15 @@ import {Component, OnInit} from '@angular/core';
 import {Dish} from '../models/dish';
 import {DishService} from '../services/dish.service';
 
-import {Ingredient} from '../models/ingredient'
-import {IngredientService} from '../services/ingredient.service'
+import {Ingredient} from '../models/ingredient';
+import {IngredientService} from '../services/ingredient.service';
 
-import {Pizza} from '../models/pizza'
-import {PizzaService} from '../services/pizza.service'
+import {Pizza} from '../models/pizza';
+import {PizzaAdd} from '../models/pizza-add';
+import {PizzaService} from '../services/pizza.service';
+
+import {BucketAdd} from '../models/bucket-add'
+import {BucketService} from '../services/bucket.service'
 
 @Component({
   selector: 'app-dashboard',
@@ -22,9 +26,15 @@ export class DashboardComponent implements OnInit {
   pizzas: Pizza[] = [];
   ingredientsNewPizza: Ingredient[] = [];
 
+  bucketDish: Dish[] = [];
+  bucketPizza: Pizza[] = [];
+
   types: string[] = ['PIZZA', 'LUNCH', 'FIRST_DISH', 'SECOND_DISH', 'DESSERT', 'DRINK'];
 
-  constructor(private dishService: DishService, private ingredientService: IngredientService, private pizzaService: PizzaService) {
+  constructor(private dishService: DishService,
+              private ingredientService: IngredientService,
+              private pizzaService: PizzaService,
+              private bucketService: BucketService) {
   }
 
   ngOnInit() {
@@ -77,9 +87,27 @@ export class DashboardComponent implements OnInit {
     this.ingredientsNewPizza.splice(this.ingredientsNewPizza.indexOf(ingredient), 1);
   }
 
+  addDishToBucket(dish: Dish) {
+    this.bucketDish.push(dish);
+  }
+
+  addPizzaToBucket(pizza: Pizza) {
+    this.bucketPizza.push(pizza);
+  }
+
+  removeDishFromBucket(dish: Dish) {
+    this.bucketDish.slice(this.bucketDish.indexOf(dish), 1);
+  }
+
+  removePizzaFromBucket(pizza: Pizza) {
+    this.bucketPizza.slice(this.bucketPizza.indexOf(pizza), 1);
+  }
+
   getSum(): string {
     let total = 0;
-    for (const ingredientsNewPizzaItem of this.ingredientsNewPizza) { total += ingredientsNewPizzaItem.price; }
+    for (const ingredientsNewPizzaItem of this.ingredientsNewPizza) {
+      total += ingredientsNewPizzaItem.price;
+    }
     return String(total) + ' грн.';
   }
 
@@ -89,12 +117,18 @@ export class DashboardComponent implements OnInit {
 
   getCategoryNameByType(type: string): string {
     switch (type) {
-      case 'PIZZA': return 'Пицца';
-      case 'LUNCH': return 'Ланчи';
-      case 'FIRST_DISH': return 'Первые блюда';
-      case 'SECOND_DISH': return 'Вторые блюда';
-      case 'DESSERT': return 'Десерты';
-      case 'DRINK': return 'Напитки';
+      case 'PIZZA':
+        return 'Пицца';
+      case 'LUNCH':
+        return 'Ланчи';
+      case 'FIRST_DISH':
+        return 'Первые блюда';
+      case 'SECOND_DISH':
+        return 'Вторые блюда';
+      case 'DESSERT':
+        return 'Десерты';
+      case 'DRINK':
+        return 'Напитки';
     }
 
     return type;
@@ -104,6 +138,65 @@ export class DashboardComponent implements OnInit {
     return this.dishes.filter(item => item.type === type);
   }
 
+  addPizza(name: string): void {
+    name = name.trim();
+    if (!name || this.ingredientsNewPizza.length === 0) {
+      return;
+    }
+
+    const pizza: PizzaAdd = new PizzaAdd();
+    pizza.name = name;
+    const ingredientsIds: string[] = [];
+    for (const ingredientsNewPizzaItem of this.ingredientsNewPizza) {
+      ingredientsIds.push(ingredientsNewPizzaItem.id);
+    }
+    pizza.ingredientsIds = ingredientsIds;
+    // TODO Добавить реальный id клиента
+    pizza.clientId = '1';
+
+    this.pizzaService.create(pizza)
+      .then(value => {
+        console.log('add ok!');
+        this.pizzas.push(value);
+        // alert("GG!");
+        // this.dishes.push(value);
+      });
+  }
+
+  addBucket(address: string): void {
+    address = address.trim();
+    if (!address || (this.bucketDish.length === 0 && this.bucketPizza.length === 0)) {
+      return;
+    }
+
+    const bucket: BucketAdd = new BucketAdd();
+    // TODO Replace real id
+    bucket.clientId = '1';
+    bucket.address = address;
+    bucket.status = false;
+    const dishesIds: string[] = [];
+    const pizzasIds: string[] = [];
+    for (const dish of this.bucketDish) {
+     dishesIds.push(dish.id);
+    }
+    for (const pizza of this.bucketPizza) {
+      pizzasIds.push(pizza.id);
+    }
+    bucket.dishesIds = dishesIds;
+    bucket.pizzasIds = pizzasIds;
+
+    this.bucketService.create(bucket)
+      .then(value => {
+        console.log('add ok!');
+        // this.pizzas.push(value);
+        // alert("GG!");
+        // this.dishes.push(value);
+      });
+  }
+
+  getIngredientsNotBasic(pizza: Pizza): Ingredient[] {
+    return pizza.ingredients.filter(v => v.id !== '1000').slice(0, 4);
+  }
 
 
 }

@@ -4,6 +4,7 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Pizza } from '../models/pizza';
+import {PizzaAdd} from '../models/pizza-add'
 
 @Injectable()
 export class PizzaService {
@@ -20,6 +21,17 @@ export class PizzaService {
                  return Promise.resolve(response.json().pizzas as Pizza[]);
                })
                .catch(this.handleError);
+  }
+
+  create(pizza: PizzaAdd): Promise<Pizza> {
+    const url = `${this.pizzasUrl}`;
+    return this.http.post(url, pizza, {headers: this.headers})
+      .toPromise()
+      .then(response => {
+        console.log(`pizza create JSON: ${JSON.stringify(response.json())}`);
+        return response.json().pizzas[0] as Pizza;
+      })
+      .catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {
