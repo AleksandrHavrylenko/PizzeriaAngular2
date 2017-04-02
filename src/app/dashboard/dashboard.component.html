@@ -177,11 +177,11 @@
   <md-tab>
     <template md-tab-label>Корзина</template>
     <h1>Корзина</h1>
-    <h2>Сумма: </h2>
+    <h2>Сумма: {{getBucketSum()}}</h2>
     <md-card style="padding: 16px; margin: 16px">
       <md-card-title-group>
         <md-card-title> Корзина </md-card-title>
-        <md-card-subtitle>Итого: 999.99 грн</md-card-subtitle>
+        <md-card-subtitle>Итого: {{getBucketSum()}}</md-card-subtitle>
       </md-card-title-group>
 
       <h3>
@@ -189,11 +189,17 @@
       </h3>
 
       <div *ngFor="let dish of bucketDish">
-        {{ dish.name }} {{ dish.price }}
+        {{ dish.name }} {{ dish.price }} грн.
+        <button md-button (click)="removeDishFromBucket(dish)">
+          <i class="material-icons md-18" style="color: red">close</i>
+        </button>
       </div>
       <h3> Пиццы:</h3>
       <div *ngFor="let pizza of bucketPizza">
-        {{ pizza.name }} {{ pizza.price }}
+        {{ pizza.name }} {{ pizza.price }} грн.
+        <button md-button (click)="removePizzaFromBucket(pizza)">
+          <i class="material-icons md-18" style="color: red">close</i>
+        </button>
       </div>
 
       <md-input-container class="example-full-width">

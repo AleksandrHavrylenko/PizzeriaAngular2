@@ -80,6 +80,7 @@ export class DashboardComponent implements OnInit {
   }
 
   addIngredientToNewPizza(ingredient: Ingredient) {
+    if(this.ingredientsNewPizza.length > 6) return;
     this.ingredientsNewPizza.push(ingredient);
   }
 
@@ -96,11 +97,11 @@ export class DashboardComponent implements OnInit {
   }
 
   removeDishFromBucket(dish: Dish) {
-    this.bucketDish.slice(this.bucketDish.indexOf(dish), 1);
+    this.bucketDish.splice(this.bucketDish.indexOf(dish), 1);
   }
 
   removePizzaFromBucket(pizza: Pizza) {
-    this.bucketPizza.slice(this.bucketPizza.indexOf(pizza), 1);
+    this.bucketPizza.splice(this.bucketPizza.indexOf(pizza), 1);
   }
 
   getSum(): string {
@@ -111,8 +112,15 @@ export class DashboardComponent implements OnInit {
     return String(total) + ' грн.';
   }
 
-  getDishesDrinks(): Dish[] {
-    return this.dishes.filter(item => item.type === 'DRINK');
+  getBucketSum(): string {
+    let total = 0;
+    for (const dish of this.bucketDish) {
+      total += dish.price;
+    }
+    for (const pizza of this.bucketPizza) {
+      total += pizza.price;
+    }
+    return String(total) + ' грн.';
   }
 
   getCategoryNameByType(type: string): string {
@@ -158,6 +166,7 @@ export class DashboardComponent implements OnInit {
       .then(value => {
         console.log('add ok!');
         this.pizzas.push(value);
+        this.ingredientsNewPizza.length = 0;
         // alert("GG!");
         // this.dishes.push(value);
       });
@@ -187,6 +196,8 @@ export class DashboardComponent implements OnInit {
 
     this.bucketService.create(bucket)
       .then(value => {
+        this.bucketDish.length = 0;
+        this.bucketPizza.length = 0;
         console.log('add ok!');
         // this.pizzas.push(value);
         // alert("GG!");
@@ -195,7 +206,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getIngredientsNotBasic(pizza: Pizza): Ingredient[] {
-    return pizza.ingredients.filter(v => v.id !== '1000').slice(0, 4);
+    return pizza.ingredients.filter(v => v.id !== '0').slice(0, 4);
   }
 
 
